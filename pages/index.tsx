@@ -1,11 +1,15 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import React from 'react'
+import HeaderComponent from './pageHeader'
+import ConverterFormComponent from '../components/converterComponents'
 
 const Home =()=>{
   return(
     <>
-
+  <HeaderComponent/>
+    <ConverterFormComponent/>
     </>
   )
 }
+
+export default Home
+
