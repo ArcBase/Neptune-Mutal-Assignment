@@ -16,9 +16,8 @@ declare global {
 
 const ConverterFormComponent = (props: any) => {
 
-  const { walletAddress ,accountDetailsModalState} = props
+  const { walletAddress} = props
 
-  console.log("This s",accountDetailsModalState)
 
   const NEPprice: number = 1
   const BUSDprice: number = 3
@@ -67,28 +66,32 @@ const ConverterFormComponent = (props: any) => {
 
   const checkWalletDetails = async (e: any) => {
     e.preventDefault()
-    if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
+    if (walletAddress == null || walletAddress == undefined ||
+       walletAddress.length < 0 || walletAddress == "") {
       console.log("wallet isn't connected")
       setshowConnectWalletModal(true)
       setConnectWalletModalToggle(true)
+      notifyEvent("Error", "Metamask Not Connected")
+
+      console.log(showConnectWalletModal)
+      return false
     }
-    console.log("Wallet is connected",walletAddress ,showAccountModal)
-    if (showAccountModal == false){
-      console.log("TKTITIKP")
-      setshowAccountModal(true)
-      setAccountModalToggle(true)
-    }
-    setshowAccountModal(true)
-    setAccountModalToggle(true)
+    // console.log("Wallet is connected",walletAddress ,showAccountModal)
+    // if (showAccountModal == false){
+    //   console.log("TKTITIKP")
+    //   setshowAccountModal(true)
+    //   setAccountModalToggle(true)
+    // }
+    // setshowAccountModal(true)
+    // setAccountModalToggle(true)
 
   }
 
   const getDetails = async () => {
     if (window.web3) {
-
-      if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
-        console.log("wallet isn't connected")
-        notifyEvent("Error", "Metamask Not Connected")
+      console.log("This is the wallet Address",props.walletAddress)
+      if (props.walletAddress == null || props.walletAddress == undefined ||
+         props.walletAddress.length < 0 || props.walletAddress == "") {
         return false
       }
 
@@ -97,8 +100,11 @@ const ConverterFormComponent = (props: any) => {
       const networkId = await web3.eth.net.getId();
       const myAccount = await web3.eth.getAccounts();
       const balance = await web3.eth.getBalance(myAccount[0])
+
+      const etherValue : string = Web3.utils.fromWei(String(balance), 'ether');
+
       setChainId(networkId)
-      setAddressBalance(balance)
+      setAddressBalance(parseInt(etherValue))
       setAccount(walletAddress)
 
       console.log("The Balance", balance)
@@ -131,17 +137,20 @@ const ConverterFormComponent = (props: any) => {
 
 
   useEffect(() => {
-    const connectWeb3 = async () => {
-      if (typeof window !== undefined) {
-        if (window.web3) {
-          window.web3 = new Web3(window.ethereum);
-          await getDetails()
+    if (props.walletAddress != "" || props.walletAddress != undefined 
+    || props.walletAddress != null || props.walletAddress.length < 0){
+      const connectWeb3 = async () => {
+        if (typeof window !== undefined) {
+          if (window.web3) {
+            window.web3 = new Web3(window.ethereum);
+           await getDetails()
+          }
         }
       }
+      connectWeb3()
     }
-    connectWeb3()
 
-  }, []);
+  }, [props.walletAddress]);
 
 
 
@@ -210,7 +219,9 @@ const ConverterFormComponent = (props: any) => {
                    {
                      showConnectWalletModal ? (
                        <>
-                       <ConnectWalletModal/>
+                       <ConnectWalletModal 
+                       modalState={connectWalletModalToggle}
+                       />
                        </>
                      ): null
                    }

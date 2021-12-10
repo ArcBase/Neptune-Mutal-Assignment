@@ -27,21 +27,32 @@ const style = {
     p: 4,
 };
 
-const ConnectWalletModal = (props: any) => {
-    const [open, setOpen] = React.useState(false);
+interface Connector {
+    modalState: boolean;
+    walletConnect(address: string): any
+}
+
+const ConnectWalletModal: React.FC<Connector> = ({ modalState, walletConnect }: Connector) => {
+    console.log("This is modfor connecting wallet ", modalState)
+    const [modalControl, setOpen] = React.useState(modalState);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const connectWallet = async (e:any) => {
+    const connectWallet = async (e: any) => {
         e.preventDefault()
         if (typeof window !== undefined) {
             if (window.web3) {
                 window.web3 = new Web3(window.ethereum);
 
-                await window.ethereum.send("eth_requestAccounts");
-                const web3 = window.web3
-                const accounts = await web3.eth.getAccounts();
-                props.walletConnect(accounts[0])
+                try {
+                    await window.ethereum.send("eth_requestAccounts");
+                    const web3 = window.web3
+                    const accounts = await web3.eth.getAccounts();
+                    walletConnect(accounts[0])
+                    setOpen(!modalState)
+                } catch (e) {
+                    setOpen(true)
+                }
 
             }
         }
@@ -52,7 +63,7 @@ const ConnectWalletModal = (props: any) => {
         <div>
             {/* <Button onClick={handleOpen}>Open modal</Button> */}
             <Modal
-                open={open}
+                open={modalState}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -65,9 +76,9 @@ const ConnectWalletModal = (props: any) => {
                                 <div className="account-data-rows">
                                     <div className="account-data-row-left">
                                         <button
-                                        onClick={(e)=>{connectWallet(e)}}
+                                            onClick={(e) => { connectWallet(e) }}
                                             className="mint-button">
-                                            Connect Wallet
+                                            Connect
                                         </button>
                                     </div>
                                     <div className="account-data-row-right">
