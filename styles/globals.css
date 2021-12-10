@@ -553,3 +553,12 @@ textarea {
   border: 2px solid rgb(14, 170, 27) !important;
   color: white;
 }
+
+
+/* CONVERTERTER FORM */
+.form-wrapper{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+}

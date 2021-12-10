@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { processWalletState } from "../../../redux/actions/connectWeb";
 import Link from "next/link";
+import Web3 from "web3";
+
 
 const CustomSideNav = (props) => {
   const ethAccount = props.walletAddress;
@@ -66,21 +68,12 @@ const CustomSideNav = (props) => {
               <ul className="c-sideNav-orderList">
                 <li className="c-sideNav-orderList-item">
                   <Link href="/">
-                    <p className="c-sideNav-text">Home</p>
+                    <p className="c-sideNav-text">
+                      Neptune Mutual
+                    </p>
                   </Link>
                 </li>
 
-                <li className="c-sideNav-orderList-item">
-                  <Link href="/">
-                    <p className="c-sideNav-text">Categories</p>
-                  </Link>
-                </li>
-
-                <li className="c-sideNav-orderList-item">
-                  <Link href="/collections">
-                    <p className="c-sideNav-text">Collections</p>
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
@@ -96,4 +89,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(CustomSideNav);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    walletConnect: (thePublicAddress) => dispatch(processWalletState(thePublicAddress)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomSideNav);

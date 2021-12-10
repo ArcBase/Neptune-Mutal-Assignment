@@ -2,10 +2,12 @@ import React from "react";
 
 import MainNavbar from "./mainNavbar";
 
-export default function Navbar() {
+const Navbar =()=>{
   return (
     <div >
       <MainNavbar/>
     </div>
   );
 }
+
+export default Navbar

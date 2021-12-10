@@ -6,13 +6,16 @@ import Link from "next/link";
 import { connect } from "react-redux";
 import {processWalletState} from '../../../redux/actions/connectWeb'
 
+const NeptuneMutalLogo  = "https://neptunemutual.com/favicon-32x32.png"
+
+
 const MainNavbar = (props) => {
   const [showSideNav, setShowSideNav] = useState(false);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
   const [ethAccounts, setEthAccounts] = useState([]);
-
+ 
   const connectWallet = async () => {
     if (typeof window !== undefined) {
       if (window.web3) {
@@ -31,7 +34,6 @@ const MainNavbar = (props) => {
   };
 
   useEffect(() => {
-    connectWallet();
   }, []);
 
   return (
@@ -40,7 +42,7 @@ const MainNavbar = (props) => {
         <div className="flex-r">
           <div className="navbar-logo">
             <img
-              src="https://opensea.io/static/images/logos/opensea.svg"
+              src={NeptuneMutalLogo}
               alt="logo"
             />
           </div>
@@ -49,7 +51,7 @@ const MainNavbar = (props) => {
               
                 <Link href="/">
                <li>
-                 Collections
+                 Neptune Mutual
                </li>
                 </Link>
               {/* <li>Resources</li> */}
