@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import {toggleAccountDetailsModalState} from '../../redux/actions/modalControl'
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -20,22 +22,26 @@ interface AccountData {
     address : string ;
     balance : number;
     chainId : number,
-    modalState : Boolean
+    modalState : boolean
 }
 
 const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,modalState}:AccountData)=>{
     const [modalControl, setOpen] = React.useState(modalState);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(!open);
+    const handleClose = () => {
+        console.log("Modal State live",modalState)
+        setOpen(!modalState)
+        toggleAccountDetailsModalState(!modalState)
+    }
 
 
-    console.log(address, balance, chainId ,"LKEK")
+    console.log(address, balance, chainId , modalState,"LKEK")
 
     return (
         <div>
             {/* <Button onClick={handleOpen}>Open modal</Button> */}
             <Modal
-                open={modalState}
+                open={modalControl}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -68,7 +74,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                                         </div>
                                         <div className="account-data-row-right">
                                             <p className=" text-black">
-                                                OxKenny
+                                            {`${address.substring(0, 15)}...`}
                                             </p>
                                         </div>
                                     </div>

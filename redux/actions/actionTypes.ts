@@ -1,3 +1,4 @@
 export const WALLLET_ADDRESS_SETUP :string = "WALLLET_ADDRESS_SETUP"
 export const NETWORK_TYPE : string = "NETWORK_TYPE"
-
+export const ACCOUNT_DETAILS_MODAL : string = "ACCOUNT_DETAILS_MODAL"
+export const CONNECT_WALLET_MODAL : string = "CONNECT_WALLET_MODAL"

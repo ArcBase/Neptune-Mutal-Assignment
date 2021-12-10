@@ -16,7 +16,9 @@ declare global {
 
 const ConverterFormComponent = (props: any) => {
 
-  const { walletAddress } = props
+  const { walletAddress ,accountDetailsModalState} = props
+
+  console.log("This s",accountDetailsModalState)
 
   const NEPprice: number = 1
   const BUSDprice: number = 3
@@ -70,14 +72,18 @@ const ConverterFormComponent = (props: any) => {
       setshowConnectWalletModal(true)
       setConnectWalletModalToggle(true)
     }
-    console.log("Wallet is connected")
+    console.log("Wallet is connected",walletAddress ,showAccountModal)
+    if (showAccountModal == false){
+      console.log("TKTITIKP")
+      setshowAccountModal(true)
+      setAccountModalToggle(true)
+    }
     setshowAccountModal(true)
     setAccountModalToggle(true)
 
   }
 
   const getDetails = async () => {
-    console.log("This is Account for Minting",)
     if (window.web3) {
 
       if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
@@ -86,6 +92,7 @@ const ConverterFormComponent = (props: any) => {
         return false
       }
 
+      console.log("Wallet",walletAddress)
       const web3 = window.web3
       const networkId = await web3.eth.net.getId();
       const myAccount = await web3.eth.getAccounts();
@@ -214,7 +221,8 @@ const ConverterFormComponent = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    walletAddress: state.walletConnect.walletAddress
+    walletAddress: state.walletConnect.walletAddress ,
+    // modalStateController : state.modalStateController.accountDetailsModalState
   };
 };
 
