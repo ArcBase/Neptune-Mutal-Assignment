@@ -117,13 +117,6 @@ a {
   flex-direction: row;
 }
 
-.mint-button {
-  width: 100%;
-  border: none;
-  color: white;
-  padding: 0.3rem 1rem;
-  background: #342468;
-}
 
 .container {
   display: flex;
@@ -559,6 +552,51 @@ textarea {
 .form-mt {
   margin-top: 150px;
 }
+
+.submit-button {
+  padding: 0px 45px;
+  background-size: 200% auto;
+  background-color: #10ce30;
+  z-index: 2;
+  display: inline-block;
+  -webkit-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
+  text-align: center;
+  color: black;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 50px;
+  border-radius: 0px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.cancel-button {
+  padding: 0px 45px;
+  background-size: 200% auto;
+  background-color: #ffffff;
+  z-index: 2;
+  display: inline-block;
+  -webkit-transition: all 400ms linear;
+  -o-transition: all 400ms linear;
+  transition: all 400ms linear;
+  text-align: center;
+  color: black;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 50px;
+  border-radius: 0px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+}
+
+
+
 
 /* Web3 Account Data */
 .account-data-section{

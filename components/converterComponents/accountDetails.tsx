@@ -24,9 +24,10 @@ interface AccountData {
 }
 
 const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,modalState}:AccountData)=>{
-    const [open, setOpen] = React.useState(modalState);
+    const [modalControl, setOpen] = React.useState(modalState);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => setOpen(!open);
+
 
     console.log(address, balance, chainId ,"LKEK")
 
@@ -44,6 +45,20 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <div className="">
                             <div className="account-data-section">
+                            <div className="account-data-column">
+                                    <div className="account-data-rows">
+                                        <div className="account-data-row-left">
+                                           
+                                        </div>
+                                        <div className="account-data-row-right">
+                                        <div
+                                        onClick={handleClose}>
+                                        <i
+                                        className="fa fa-times" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                                 <div className="account-data-column">
                                     <div className="account-data-rows">
                                         <div className="account-data-row-left">
@@ -68,7 +83,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                                         </div>
                                         <div className="account-data-row-right">
                                             <p className=" text-black">
-                                                87
+                                            {chainId}
                                             </p>
                                         </div>
                                     </div>
@@ -83,7 +98,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                                         </div>
                                         <div className="account-data-row-right">
                                             <p className=" text-black">
-                                                2.3 BNB
+                                                {balance} BNB
                                             </p>
                                         </div>
                                     </div>
@@ -93,7 +108,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                             </div>
 
                             <button
-                                className="mint-button">
+                                className="submit-button">
                                Disconnect
                             </button>
                         </div>

@@ -5,6 +5,7 @@ import Navbar from '../pageComponents/navbar/navbar'
 import { useToasts } from "react-toast-notifications";
 import Web3 from 'web3'
 import AccountDataComponent from './accountDetails'
+import ConnectWalletModal from './connectWalletModal'
 
 declare global {
   interface Window {
@@ -21,6 +22,10 @@ const ConverterFormComponent = (props: any) => {
   const BUSDprice: number = 3
 
   const [accountModalToggle,setAccountModalToggle] = useState(false)
+  const [showAccountModalToggle, setShowAccountModalToggle] = useState(false)
+
+  const [connectWalletModalToggle,setConnectWalletModalToggle] = useState(false)
+  const [showConnectWalletModalToggle,setShowConnectWalletModalToggle] = useState(true)
 
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
@@ -62,8 +67,11 @@ const ConverterFormComponent = (props: any) => {
     e.preventDefault()
     if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
       console.log("wallet isn't connected")
+      setConnectWalletModalToggle(true)
+      setShowAccountModalToggle(true)
     }
     console.log("Wallet is connected")
+    setShowAccountModalToggle(true)
     setAccountModalToggle(true)
 
   }
@@ -167,7 +175,7 @@ const ConverterFormComponent = (props: any) => {
                 <div className="form-button">
                   <button
                     onClick={(e) => { checkWalletDetails(e) }}
-                    className="mint-button">
+                    className="submit-button">
                     Check Details
                   </button>
                 </div>
@@ -179,12 +187,26 @@ const ConverterFormComponent = (props: any) => {
         </div>
       </div>
 
-                    <AccountDataComponent 
+                   {
+                     showAccountModalToggle ?(
+                       <>
+                        <AccountDataComponent 
                     address={walletAddress}
                     balance={addressBalance}
                     chainId={NetworkChainId}
                     modalState={accountModalToggle}
                     />
+                       </>
+                     ) : null
+                   }
+
+                   {
+                     showConnectWalletModalToggle ? (
+                       <>
+                       <ConnectWalletModal/>
+                       </>
+                     ): null
+                   }
 
     </>
   )
