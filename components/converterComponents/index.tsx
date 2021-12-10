@@ -25,8 +25,8 @@ const ConverterFormComponent = (props: any) => {
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
 
-  const [addressBalance, setAddressBalance] = useState<string>("")
-  const [chainId, setChainId] = useState<string>("")
+  const [addressBalance, setAddressBalance] = useState<number>(0)
+  const [NetworkChainId, setChainId] = useState<number>(0)
   const [account, setAccount] = useState<string>("")
 
   const ConvertNEPtoBUSD = (amount: number) => {
@@ -64,6 +64,7 @@ const ConverterFormComponent = (props: any) => {
       console.log("wallet isn't connected")
     }
     console.log("Wallet is connected")
+    setAccountModalToggle(true)
 
   }
 
@@ -179,9 +180,9 @@ const ConverterFormComponent = (props: any) => {
       </div>
 
                     <AccountDataComponent 
-                    address={""}
-                    balance={12}
-                    chainId={13}
+                    address={walletAddress}
+                    balance={addressBalance}
+                    chainId={NetworkChainId}
                     modalState={accountModalToggle}
                     />
 
