@@ -22,10 +22,10 @@ const ConverterFormComponent = (props: any) => {
   const BUSDprice: number = 3
 
   const [accountModalToggle,setAccountModalToggle] = useState(false)
-  const [showAccountModalToggle, setShowAccountModalToggle] = useState(false)
+  const [showAccountModal, setshowAccountModal] = useState(false)
 
   const [connectWalletModalToggle,setConnectWalletModalToggle] = useState(false)
-  const [showConnectWalletModalToggle,setShowConnectWalletModalToggle] = useState(true)
+  const [showConnectWalletModal,setshowConnectWalletModal] = useState(true)
 
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
@@ -67,11 +67,11 @@ const ConverterFormComponent = (props: any) => {
     e.preventDefault()
     if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
       console.log("wallet isn't connected")
+      setshowConnectWalletModal(true)
       setConnectWalletModalToggle(true)
-      setShowAccountModalToggle(true)
     }
     console.log("Wallet is connected")
-    setShowAccountModalToggle(true)
+    setshowAccountModal(true)
     setAccountModalToggle(true)
 
   }
@@ -188,7 +188,7 @@ const ConverterFormComponent = (props: any) => {
       </div>
 
                    {
-                     showAccountModalToggle ?(
+                     showAccountModal ?(
                        <>
                         <AccountDataComponent 
                     address={walletAddress}
@@ -201,7 +201,7 @@ const ConverterFormComponent = (props: any) => {
                    }
 
                    {
-                     showConnectWalletModalToggle ? (
+                     showConnectWalletModal ? (
                        <>
                        <ConnectWalletModal/>
                        </>
