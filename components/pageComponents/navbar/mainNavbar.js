@@ -34,6 +34,7 @@ const MainNavbar = (props) => {
   };
 
   useEffect(() => {
+    connectWallet()
   }, []);
 
   return (
@@ -55,12 +56,7 @@ const MainNavbar = (props) => {
                </li>
                 </Link>
               {/* <li>Resources</li> */}
-              {showAddress ? (
-                <Link href="/collections">
-                  <li>Dashboard</li>
-                </Link>
-              ) : // <li>Crea</li>
-                null} 
+      
             </ul>
           </div>
           <div className="ml-auto navbar-order sm-screen">

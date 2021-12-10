@@ -2,7 +2,9 @@ import { useState, useEffect } from "react"
 import { connect } from "react-redux";
 import { processWalletState } from '../../redux/actions/connectWeb'
 import Navbar from '../pageComponents/navbar/navbar'
+import { useToasts } from "react-toast-notifications";
 import Web3 from 'web3'
+import AccountDataComponent from './accountDetails'
 
 declare global {
   interface Window {
@@ -17,6 +19,8 @@ const ConverterFormComponent = (props: any) => {
 
   const NEPprice: number = 1
   const BUSDprice: number = 3
+
+  const [accountModalToggle,setAccountModalToggle] = useState(false)
 
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
@@ -54,14 +58,12 @@ const ConverterFormComponent = (props: any) => {
     }
   }
 
-  const checkWalletDetails = async(e: any) => {
+  const checkWalletDetails = async (e: any) => {
     e.preventDefault()
-    if (account == null || account == undefined || account.length < 0) {
+    if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
       console.log("wallet isn't connected")
     }
-
-    await getDetails()
-
+    console.log("Wallet is connected")
 
   }
 
@@ -69,23 +71,47 @@ const ConverterFormComponent = (props: any) => {
     console.log("This is Account for Minting",)
     if (window.web3) {
 
-      if (walletAddress == null || walletAddress == walletAddress || walletAddress.length < 0) {
+      if (walletAddress == null || walletAddress == undefined || walletAddress.length < 0) {
         console.log("wallet isn't connected")
+        notifyEvent("Error", "Metamask Not Connected")
         return false
       }
 
       const web3 = window.web3
       const networkId = await web3.eth.net.getId();
-      const balance = await web3.eth.get.balance(walletAddress)
-
+      const myAccount = await web3.eth.getAccounts();
+      const balance = await web3.eth.getBalance(myAccount[0])
       setChainId(networkId)
       setAddressBalance(balance)
       setAccount(walletAddress)
 
-      console.log(networkId,balance,walletAddress)
+      console.log("The Balance", balance)
+      console.log("Network chain Id", networkId)
 
     }
   }
+
+
+  const { addToast } = useToasts();
+  // ------------- ------------------- ///
+  const notifyEvent = (type: string, message: string) => {
+    switch (type) {
+      case "Success":
+        addToast(message, { appearance: "success" });
+        break;
+      case "Error":
+        addToast(message, { appearance: "error" });
+        break;
+      case "Info":
+        addToast(message, { appearance: "info" });
+        break;
+      default:
+        break;
+    }
+
+    return true;
+  };
+
 
 
   useEffect(() => {
@@ -108,7 +134,7 @@ const ConverterFormComponent = (props: any) => {
       <Navbar />
       <div className="container">
         <div className="row">
-          <div className="col-sm-12 col-lg-12 col-md-12">
+          <div className="col-sm-12 col-lg-12 col-md-12 form-mt">
             <div className="form-wrapper">
               <form>
                 <div className="form-input-box">
@@ -151,6 +177,13 @@ const ConverterFormComponent = (props: any) => {
 
         </div>
       </div>
+
+                    <AccountDataComponent 
+                    address={""}
+                    balance={12}
+                    chainId={13}
+                    modalState={accountModalToggle}
+                    />
 
     </>
   )
