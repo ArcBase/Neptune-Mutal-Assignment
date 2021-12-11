@@ -6,7 +6,6 @@ const initialState  = {
 };
 
 const updateWalletAddress = (state: any, data: any) => {
-  console.log("This is the actuon",data)
   return updateObject(state, {
     walletAddress : data
   });

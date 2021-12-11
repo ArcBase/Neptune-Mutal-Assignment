@@ -37,7 +37,6 @@ const ConverterFormComponent = (props: any) => {
     const caculatedAmount: number = amount * BUSDprice;
     setNEPTokenAmount(amount);
     setBUSDTokenAmount(caculatedAmount)
-    console.log("This is the caculated amount", caculatedAmount);
   };
 
 
@@ -46,7 +45,6 @@ const ConverterFormComponent = (props: any) => {
 
     setBUSDTokenAmount(amount);
     setNEPTokenAmount(caculatedAmount)
-    console.log("This is the caculated amount", caculatedAmount);
   };
 
 
@@ -66,15 +64,12 @@ const ConverterFormComponent = (props: any) => {
   const checkWalletDetails = async () => {
     if (walletAddress == null || walletAddress == undefined ||
       walletAddress.length < 0 || walletAddress == "") {
-      console.log("wallet isn't connected")
       setshowConnectWalletModal(true)
       setshowAccountModal(false)
       notifyEvent("Error", "Metamask Not Connected")
 
-      console.log(showConnectWalletModal)
       return false
     }
-    console.log("Wallet is connected", walletAddress, showAccountModal)
     if (showAccountModal == false) {
       setshowAccountModal(true)
       setshowConnectWalletModal(false)
@@ -90,7 +85,6 @@ const ConverterFormComponent = (props: any) => {
         return false
       }
 
-      console.log("Wallet", walletAddress)
       const web3 = window.web3
       const networkId = await web3.eth.net.getId();
       const myAccount = await web3.eth.getAccounts();
@@ -102,8 +96,6 @@ const ConverterFormComponent = (props: any) => {
       setAddressBalance(parseInt(etherValue))
       setAccount(walletAddress)
 
-      console.log("The Balance", balance)
-      console.log("Network chain Id", networkId)
 
     }
   }
@@ -156,9 +148,9 @@ const ConverterFormComponent = (props: any) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-12 col-lg-12 col-md-12 form-mt">
-          <p className="text-center converter-text">
-                  Neptune Mutual Token Converter
-                </p>
+            <p className="text-center converter-text">
+              Neptune Mutual Token Converter
+            </p>
 
             <div className="form-wrapper">
 
@@ -181,13 +173,13 @@ const ConverterFormComponent = (props: any) => {
 
                 <div className="pt-2  form-icon-box">
                   <i className="fa fa-exchange text-center" aria-hidden="true"></i>
-                  </div>
+                </div>
 
 
                 <div className=" form-input-box">
-                <p className="text-bold ">
-                      BUSD
-                      </p>
+                  <p className="text-bold ">
+                    BUSD
+                  </p>
                   <input
                     onChange={(e: any) => {
                       handleFormChange(e, "convertAmountForBUSDtoNEP")

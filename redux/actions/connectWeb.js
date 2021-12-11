@@ -14,7 +14,6 @@ export const saveWalletToProps = (publicAddress) => {
 
 export const processWalletState = (publicAddress) => {
   return (dispatch) => {
-    console.log("This is the Address to ", publicAddress) 
     dispatch(saveWalletToProps(publicAddress))
   }
 }
