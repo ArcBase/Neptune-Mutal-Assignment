@@ -179,12 +179,12 @@ const ConverterFormComponent = (props: any) => {
                   />
                 </div>
 
-                  <div className="pt-4 form-input-box">
+                <div className="pt-2  form-icon-box">
                   <i className="fa fa-exchange text-center" aria-hidden="true"></i>
                   </div>
 
 
-                <div className="pt-4 form-input-box">
+                <div className=" form-input-box">
                 <p className="text-bold ">
                       BUSD
                       </p>
