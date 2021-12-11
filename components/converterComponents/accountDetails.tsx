@@ -4,7 +4,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-import {toggleAccountDetailsModalState} from '../../redux/actions/modalControl'
+import { connect } from "react-redux";
+import { processWalletState } from '../../redux/actions/connectWeb'
+import { useToasts } from "react-toast-notifications";
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -13,36 +16,68 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    borderRadius: "8px",
     boxShadow: 24,
     p: 4,
 };
 
 interface AccountData {
-    address : string ;
-    balance : number;
-    chainId : number,
-    modalState : boolean
+    address: string;
+    balance: number;
+    chainId: number,
+    walletConnect(data: any): any
 }
 
-const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,modalState}:AccountData)=>{
-    const [modalControl, setOpen] = React.useState(modalState);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        console.log("Modal State live",modalState)
-        setOpen(!modalState)
-        toggleAccountDetailsModalState(!modalState)
+const AccountDataComponent: React.FC<AccountData> = ({ address, balance, chainId, walletConnect }: AccountData) => {
+    const [modalControl, setOpen] = React.useState(false);
+    const handleOpen = (e: any) => {
+        e.preventDefault()
+        setOpen(true)
+    };
+    const handleClose = (e: any) => {
+        e.preventDefault()
+        setOpen(!modalControl)
     }
 
 
-    console.log(address, balance, chainId , modalState,"LKEK")
+    const { addToast } = useToasts();
+    // ------------- ------------------- ///
+    const notifyEvent = (type: string, message: string) => {
+        switch (type) {
+            case "Success":
+                addToast(message, { appearance: "success" });
+                break;
+            case "Error":
+                addToast(message, { appearance: "error" });
+                break;
+            case "Info":
+                addToast(message, { appearance: "info" });
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    const disconnectWallet = (e: any) => {
+        e.preventDefault()
+        walletConnect("")
+        notifyEvent("Success", "Dissconnected Wallet")
+    }
 
     return (
         <div>
-            {/* <Button onClick={handleOpen}>Open modal</Button> */}
+
+            <div className="form-button">
+                <button
+                    onClick={(e) => { handleOpen(e) }}
+                    className="submit-button">
+                    Check Details
+                </button>
+            </div>
             <Modal
                 open={modalControl}
-                onClose={handleClose}
+                onClose={(e) => { handleClose(e) }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -51,18 +86,21 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <div className="">
                             <div className="account-data-section">
-                            <div className="account-data-column">
+                                <div className="account-data-column">
                                     <div className="account-data-rows">
                                         <div className="account-data-row-left">
-                                           
+                                            <h4 className='text-large'>
+                                                Wallet Details
+                                            </h4>
+
                                         </div>
                                         <div className="account-data-row-right">
-                                        <div
-                                        onClick={handleClose}>
-                                        <i
-                                        className="fa fa-times" aria-hidden="true"></i>
+                                            <div
+                                                onClick={handleClose}>
+                                                <i
+                                                    className="fa fa-times" aria-hidden="true"></i>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                                 <div className="account-data-column">
@@ -74,7 +112,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                                         </div>
                                         <div className="account-data-row-right">
                                             <p className=" text-black">
-                                            {`${address.substring(0, 15)}...`}
+                                                {`${address.substring(0, 15)}...`}
                                             </p>
                                         </div>
                                     </div>
@@ -89,7 +127,7 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                                         </div>
                                         <div className="account-data-row-right">
                                             <p className=" text-black">
-                                            {chainId}
+                                                {chainId}
                                             </p>
                                         </div>
                                     </div>
@@ -114,8 +152,9 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
                             </div>
 
                             <button
+                                onClick={(e) => { disconnectWallet(e) }}
                                 className="submit-button">
-                               Disconnect
+                                Disconnect
                             </button>
                         </div>
 
@@ -126,4 +165,17 @@ const AccountDataComponent :React.FC<AccountData> =({address,balance,chainId ,mo
     );
 }
 
-export default AccountDataComponent
+const mapStateToProps = (state: any) => {
+    return {
+        walletAddress: state.walletConnect.walletAddress
+    };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        walletConnect: (thePublicAddress: string) => dispatch(processWalletState(thePublicAddress)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountDataComponent);

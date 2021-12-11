@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState  = {
-  walletAddress: "",
+  walletAddress: null,
 };
 
 const updateWalletAddress = (state: any, data: any) => {

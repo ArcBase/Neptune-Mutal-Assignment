@@ -25,18 +25,22 @@ const style = {
     border: '0px solid #000',
     boxShadow: 24,
     p: 4,
+    borderRadius: "8px"
 };
 
-interface Connector {
-    modalState: boolean;
-    walletConnect(address: string): any
-}
 
-const ConnectWalletModal: React.FC<Connector> = ({ modalState, walletConnect }: Connector) => {
-    console.log("This is modfor connecting wallet ", modalState)
-    const [modalControl, setOpen] = React.useState(modalState);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
+const ConnectWalletModal= (props:any) => {
+
+    const [modalControl, setOpen] = React.useState(false);
+    const handleOpen = (e:any) => {
+        e.preventDefault()
+        setOpen(true)
+    };
+    const handleClose = (e:any) => {
+        e.preventDefault()
+        setOpen(!modalControl)
+    };
 
     const connectWallet = async (e: any) => {
         e.preventDefault()
@@ -44,16 +48,11 @@ const ConnectWalletModal: React.FC<Connector> = ({ modalState, walletConnect }: 
             if (window.web3) {
                 window.web3 = new Web3(window.ethereum);
 
-                try {
-                    await window.ethereum.send("eth_requestAccounts");
+                await window.ethereum.send("eth_requestAccounts");
                     const web3 = window.web3
                     const accounts = await web3.eth.getAccounts();
-                    walletConnect(accounts[0])
-                    setOpen(!modalState)
-                } catch (e) {
-                    setOpen(true)
-                }
-
+                    props.walletConnect(accounts[0])
+                    setOpen(!modalControl)
             }
         }
     };
@@ -61,10 +60,20 @@ const ConnectWalletModal: React.FC<Connector> = ({ modalState, walletConnect }: 
 
     return (
         <div>
-            {/* <Button onClick={handleOpen}>Open modal</Button> */}
+           
+            <form>
+            <div className="form-button">
+                  <button
+                    onClick={(e)=>{handleOpen(e)}}
+                    className="submit-button">
+                    Check Details
+                  </button>
+                </div>
+            </form>
+
             <Modal
-                open={modalState}
-                onClose={handleClose}
+                open={modalControl}
+                onClose={(e)=>{handleClose(e)}}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

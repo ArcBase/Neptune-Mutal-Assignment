@@ -34,8 +34,8 @@ const MainNavbar = (props) => {
   };
 
   useEffect(() => {
-    connectWallet()
-  }, []);
+    // connectWallet()
+  }, [props.walletAddress]);
 
   return (
     <>
@@ -52,7 +52,10 @@ const MainNavbar = (props) => {
               
                 <Link href="/">
                <li>
-                 Neptune Mutual
+                <p className="text-dark">
+                Neptune Mutual
+                </p>
+
                </li>
                 </Link>
               {/* <li>Resources</li> */}

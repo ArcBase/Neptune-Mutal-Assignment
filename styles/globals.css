@@ -5,7 +5,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #111111 !important;
+  background-color: #ffffff !important;
 }
 
 a {
@@ -244,34 +244,14 @@ ul {
 }
 
 .nav-button {
-  background: rgb(30, 30, 30);
-  color: rgb(107, 156, 139);
+  background: #2a538c;
+  color: white;
   border: none;
   padding: 0.3rem 2rem;
   width: 100%;
   border-radius: 8px;
 }
 
-.nft-img-details {
-  height: 500px;
-  width: 100%;
-  border-radius: 20px;
-  padding: 4rem;
-}
-
-.nft-img-details-file {
-  height: inherit;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  width: inherit;
-  object-fit: cover;
-  border-radius: 20px;
-}
-
-.nft-details {
-  padding: 4rem;
-  color: white;
-}
 
 .grid-button button {
   width: 100%;
@@ -289,26 +269,6 @@ ul {
   height: inherit;
 }
 
-.nft-detail-page {
-  font-family: "Architects Daughter", cursive;
-  font-family: "Lato", sans-serif;
-  font-family: "Zen Kurenaido", sans-serif;
-}
-
-.nft-b button {
-  background: rgb(30, 30, 30);
-  color: rgb(107, 156, 139);
-  border-radius: 30px;
-  border: none;
-  padding: 0.6rem 2rem;
-  color: white;
-  font-size: 1.3rem;
-}
-
-.nft-b button:focus {
-  border: none;
-  outline: none;
-}
 .p-align {
   align-self: center;
   padding-left: 1rem;
@@ -415,7 +375,7 @@ ul {
 .mint-button {
   padding: 0px 45px;
   background-size: 200% auto;
-  background-color: #10ce30;
+  background-color: #2a538c;
   z-index: 2;
   display: inline-block;
   -webkit-transition: all 400ms linear;
@@ -527,8 +487,8 @@ input[type="text"] {
   margin: 8px 0;
   box-sizing: border-box;
   background-color: transparent;
-  border: 2px solid rgb(14, 170, 27);
-  color: white;
+  border: 2px solid #2a538c;
+  color: rgb(15, 15, 15);
 }
 
 textarea {
@@ -537,7 +497,7 @@ textarea {
   margin: 8px 0;
   box-sizing: border-box;
   background-color: transparent;
-  border: 2px solid rgb(14, 170, 27) !important;
+  border: 2px solid #2a538c !important;
   color: white;
 }
 
@@ -556,14 +516,14 @@ textarea {
 .submit-button {
   padding: 0px 45px;
   background-size: 200% auto;
-  background-color: #10ce30;
+  background-color: #2a538c;
   z-index: 2;
   display: inline-block;
   -webkit-transition: all 400ms linear;
   -o-transition: all 400ms linear;
   transition: all 400ms linear;
   text-align: center;
-  color: black;
+  color: rgb(255, 255, 255);
   font-size: 1rem;
   font-weight: 600;
   line-height: 50px;
@@ -590,7 +550,7 @@ textarea {
   line-height: 50px;
   border-radius: 0px;
   margin-top: 20px;
-  border: none;
+  border: 1px solid #2a538c;
   border-radius: 10px;
   text-align: center;
 }

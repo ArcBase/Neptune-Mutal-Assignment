@@ -27,7 +27,7 @@ const CustomSideNav = (props) => {
   };
 
   useEffect(() => {
-    if (ethAccount.length > 1) {
+    if (props.walletAddress.length != null) {
       setShowAddress(true);
     }
   }, []);

@@ -16,17 +16,17 @@ declare global {
 
 const ConverterFormComponent = (props: any) => {
 
-  const { walletAddress} = props
+  const { walletAddress } = props
 
 
   const NEPprice: number = 1
   const BUSDprice: number = 3
 
-  const [accountModalToggle,setAccountModalToggle] = useState(false)
+  const [accountModalToggle, setAccountModalToggle] = useState(false)
   const [showAccountModal, setshowAccountModal] = useState(false)
 
-  const [connectWalletModalToggle,setConnectWalletModalToggle] = useState(false)
-  const [showConnectWalletModal,setshowConnectWalletModal] = useState(true)
+  const [connectWalletModalToggle, setConnectWalletModalToggle] = useState(false)
+  const [showConnectWalletModal, setshowConnectWalletModal] = useState(false)
 
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
@@ -64,44 +64,40 @@ const ConverterFormComponent = (props: any) => {
     }
   }
 
-  const checkWalletDetails = async (e: any) => {
-    e.preventDefault()
+  const checkWalletDetails = async () => {
     if (walletAddress == null || walletAddress == undefined ||
-       walletAddress.length < 0 || walletAddress == "") {
+      walletAddress.length < 0 || walletAddress == "") {
       console.log("wallet isn't connected")
       setshowConnectWalletModal(true)
-      setConnectWalletModalToggle(true)
+      setshowAccountModal(false)
       notifyEvent("Error", "Metamask Not Connected")
 
       console.log(showConnectWalletModal)
       return false
     }
-    // console.log("Wallet is connected",walletAddress ,showAccountModal)
-    // if (showAccountModal == false){
-    //   console.log("TKTITIKP")
-    //   setshowAccountModal(true)
-    //   setAccountModalToggle(true)
-    // }
-    // setshowAccountModal(true)
-    // setAccountModalToggle(true)
+    console.log("Wallet is connected", walletAddress, showAccountModal)
+    if (showAccountModal == false) {
+      setshowAccountModal(true)
+      setshowConnectWalletModal(false)
+      return 0
+    }
+
 
   }
 
   const getDetails = async () => {
     if (window.web3) {
-      console.log("This is the wallet Address",props.walletAddress)
-      if (props.walletAddress == null || props.walletAddress == undefined ||
-         props.walletAddress.length < 0 || props.walletAddress == "") {
+      if (props.walletAddress == null) {
         return false
       }
 
-      console.log("Wallet",walletAddress)
+      console.log("Wallet", walletAddress)
       const web3 = window.web3
       const networkId = await web3.eth.net.getId();
       const myAccount = await web3.eth.getAccounts();
       const balance = await web3.eth.getBalance(myAccount[0])
 
-      const etherValue : string = Web3.utils.fromWei(String(balance), 'ether');
+      const etherValue: string = Web3.utils.fromWei(String(balance), 'ether');
 
       setChainId(networkId)
       setAddressBalance(parseInt(etherValue))
@@ -137,13 +133,14 @@ const ConverterFormComponent = (props: any) => {
 
 
   useEffect(() => {
-    if (props.walletAddress != "" || props.walletAddress != undefined 
-    || props.walletAddress != null || props.walletAddress.length < 0){
+    if (props.walletAddress != "" || props.walletAddress != undefined
+      || props.walletAddress != null || props.walletAddress.length < 0) {
       const connectWeb3 = async () => {
         if (typeof window !== undefined) {
           if (window.web3) {
             window.web3 = new Web3(window.ethereum);
-           await getDetails()
+            await getDetails()
+            await checkWalletDetails()
           }
         }
       }
@@ -188,13 +185,29 @@ const ConverterFormComponent = (props: any) => {
                     placeholder="BUSD Amount"
                   />
                 </div>
-                <div className="form-button">
-                  <button
-                    onClick={(e) => { checkWalletDetails(e) }}
-                    className="submit-button">
-                    Check Details
-                  </button>
-                </div>
+
+                {
+                  showAccountModal ? (
+                    <>
+                      <AccountDataComponent
+                        address={walletAddress}
+                        balance={addressBalance}
+                        chainId={NetworkChainId}
+
+                      />
+                    </>
+                  ) : null
+                }
+
+                {
+                  showConnectWalletModal ? (
+                    <>
+                      <ConnectWalletModal
+                      />
+                    </>
+                  ) : null
+                }
+
 
               </form>
             </div>
@@ -203,28 +216,6 @@ const ConverterFormComponent = (props: any) => {
         </div>
       </div>
 
-                   {
-                     showAccountModal ?(
-                       <>
-                        <AccountDataComponent 
-                    address={walletAddress}
-                    balance={addressBalance}
-                    chainId={NetworkChainId}
-                    modalState={accountModalToggle}
-                    />
-                       </>
-                     ) : null
-                   }
-
-                   {
-                     showConnectWalletModal ? (
-                       <>
-                       <ConnectWalletModal 
-                       modalState={connectWalletModalToggle}
-                       />
-                       </>
-                     ): null
-                   }
 
     </>
   )
@@ -232,7 +223,7 @@ const ConverterFormComponent = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    walletAddress: state.walletConnect.walletAddress ,
+    walletAddress: state.walletConnect.walletAddress,
     // modalStateController : state.modalStateController.accountDetailsModalState
   };
 };
