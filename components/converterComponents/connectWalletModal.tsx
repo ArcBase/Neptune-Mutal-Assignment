@@ -86,7 +86,7 @@ const ConnectWalletModal= (props:any) => {
                                     <div className="account-data-row-left">
                                         <button
                                             onClick={(e) => { connectWallet(e) }}
-                                            className="mint-button">
+                                            className="submit-button">
                                             Connect
                                         </button>
                                     </div>

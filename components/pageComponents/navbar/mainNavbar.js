@@ -40,7 +40,7 @@ const MainNavbar = (props) => {
   return (
     <>
       <section className="container ">
-        <div className="flex-r">
+        <div className="pt-2 flex-r">
           <div className="navbar-logo">
             <img
               src={NeptuneMutalLogo}
@@ -52,7 +52,7 @@ const MainNavbar = (props) => {
               
                 <Link href="/">
                <li>
-                <p className="text-dark">
+                <p className="text-black">
                 Neptune Mutual
                 </p>
 
