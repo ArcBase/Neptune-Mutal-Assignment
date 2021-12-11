@@ -178,7 +178,13 @@ const ConverterFormComponent = (props: any) => {
                     placeholder="NEP Amount"
                   />
                 </div>
-                <div className="form-input-box">
+
+                  <div className="pt-4 form-input-box">
+                  <i className="fa fa-exchange text-center" aria-hidden="true"></i>
+                  </div>
+
+
+                <div className="pt-4 form-input-box">
                 <p className="text-bold ">
                       BUSD
                       </p>
