@@ -8,7 +8,7 @@ import Web3 from "web3";
 const CustomSideNav = (props) => {
   const ethAccount = props.walletAddress;
   const [showAddress, setShowAddress] = useState(false);
-  const [ethAccounts, setEthAccounts] = useState([]);
+  const [ethAccounts, setEthAccounts] = useState("");
 
   const connectWallet = async () => {
     if (typeof window !== undefined) {
@@ -27,10 +27,10 @@ const CustomSideNav = (props) => {
   };
 
   useEffect(() => {
-    if (props.walletAddress.length != null) {
+    if (props.walletAddress != null){
       setShowAddress(true);
     }
-  }, []);
+  }, [props.walletAddress]);
 
   return (
     <>

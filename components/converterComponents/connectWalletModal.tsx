@@ -28,9 +28,12 @@ const style = {
     borderRadius: "8px"
 };
 
+interface ModalInterface {
+    walletConnect(data: string): string
+}
 
 
-const ConnectWalletModal= (props:any) => {
+const ConnectWalletModal : React.FC<ModalInterface>= ({walletConnect}: ModalInterface) => {
 
     const [modalControl, setOpen] = React.useState(false);
     const handleOpen = (e:any) => {
@@ -51,7 +54,7 @@ const ConnectWalletModal= (props:any) => {
                 await window.ethereum.send("eth_requestAccounts");
                     const web3 = window.web3
                     const accounts = await web3.eth.getAccounts();
-                    props.walletConnect(accounts[0])
+                    walletConnect(accounts[0])
                     setOpen(!modalControl)
             }
         }

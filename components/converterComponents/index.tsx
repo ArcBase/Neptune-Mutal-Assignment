@@ -22,11 +22,9 @@ const ConverterFormComponent = (props: any) => {
   const NEPprice: number = 1
   const BUSDprice: number = 3
 
-  const [accountModalToggle, setAccountModalToggle] = useState(false)
   const [showAccountModal, setshowAccountModal] = useState(false)
 
-  const [connectWalletModalToggle, setConnectWalletModalToggle] = useState(false)
-  const [showConnectWalletModal, setshowConnectWalletModal] = useState(false)
+  const [showConnectWalletModal, setshowConnectWalletModal] = useState(true)
 
   const [NEPTokenAmount, setNEPTokenAmount] = useState<number>(1)
   const [BUSDTokenAmount, setBUSDTokenAmount] = useState<number>(3)
@@ -44,7 +42,8 @@ const ConverterFormComponent = (props: any) => {
 
 
   const ConvertBUSDtoNEP = (amount: number) => {
-    const caculatedAmount: number = NEPprice / amount
+    const caculatedAmount: number = (amount / BUSDprice) * NEPprice
+
     setBUSDTokenAmount(amount);
     setNEPTokenAmount(caculatedAmount)
     console.log("This is the caculated amount", caculatedAmount);
@@ -157,16 +156,17 @@ const ConverterFormComponent = (props: any) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-12 col-lg-12 col-md-12 form-mt">
-            <div className="form-wrapper">
-
-                <p className="text-center converter-text">
+          <p className="text-center converter-text">
                   Neptune Mutual Token Converter
                 </p>
 
+            <div className="form-wrapper">
 
               <form>
                 <div className="form-input-box">
-
+                  <p className="text-bold ">
+                    NEP
+                  </p>
                   <input
                     onChange={(e: any) => {
                       handleFormChange(e, "convertAmountForNEPtoBUSD")
@@ -179,7 +179,9 @@ const ConverterFormComponent = (props: any) => {
                   />
                 </div>
                 <div className="form-input-box">
-
+                <p className="text-bold ">
+                      BUSD
+                      </p>
                   <input
                     onChange={(e: any) => {
                       handleFormChange(e, "convertAmountForBUSDtoNEP")
