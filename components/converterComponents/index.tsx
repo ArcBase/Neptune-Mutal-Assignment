@@ -43,8 +43,11 @@ const ConverterFormComponent = (props: any) => {
   const ConvertBUSDtoNEP = (amount: number) => {
     const caculatedAmount: number = (amount / BUSDprice) * NEPprice
 
+    const approixmatedAmount = Math.round(caculatedAmount * 100) / 100
+
+
     setBUSDTokenAmount(amount);
-    setNEPTokenAmount(caculatedAmount)
+    setNEPTokenAmount(approixmatedAmount)
   };
 
 
