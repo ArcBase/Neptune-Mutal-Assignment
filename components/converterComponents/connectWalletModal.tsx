@@ -6,6 +6,8 @@ import Modal from '@mui/material/Modal';
 import Web3 from "web3";
 import { connect } from "react-redux";
 import { processWalletState } from '../../redux/actions/connectWeb'
+import { useToasts } from "react-toast-notifications";
+
 
 declare global {
     interface Window {
@@ -45,17 +47,41 @@ const ConnectWalletModal : React.FC<ModalInterface>= ({walletConnect}: ModalInte
         setOpen(!modalControl)
     };
 
+    const { addToast } = useToasts();
+    // ------------- ------------------- ///
+    const notifyEvent = (type: string, message: string) => {
+        switch (type) {
+            case "Success":
+                addToast(message, { appearance: "success" });
+                break;
+            case "Error":
+                addToast(message, { appearance: "error" });
+                break;
+            case "Info":
+                addToast(message, { appearance: "info" });
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
     const connectWallet = async (e: any) => {
         e.preventDefault()
         if (typeof window !== undefined) {
             if (window.web3) {
                 window.web3 = new Web3(window.ethereum);
 
+              try{
                 await window.ethereum.send("eth_requestAccounts");
-                    const web3 = window.web3
-                    const accounts = await web3.eth.getAccounts();
-                    walletConnect(accounts[0])
-                    setOpen(!modalControl)
+                const web3 = window.web3
+                const accounts = await web3.eth.getAccounts();
+                walletConnect(accounts[0])
+                setOpen(!modalControl)
+              }catch(e:any){
+                notifyEvent("Error","Error Connecting Metamask,Kindly check if it's installed")
+              }
             }
         }
     };
